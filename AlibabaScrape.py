@@ -5,13 +5,13 @@ from selectorlib import Extractor
 
 class AlibabaSpider(scrapy.Spider):
     name = "alibaba"
-    start_urls = [   # Load CSV in future
-        'https://www.alibaba.com/trade/search?tab=all&searchText=ram',
-        'https://www.alibaba.com/trade/search?tab=all&searchText=LEGO'
-    ]
 
-    def __init__(self, *args, **kwargs):
-        super(AlibabaSpider, self).__init__(*args, **kwargs)
+    def __init__(self, query1=None, query2=None, *args, **kwargs):
+        super(AlibabaSpider, self).__init__(*args, **kwargs) 
+        self.start_urls = [
+        f'https://www.alibaba.com/trade/search?tab=all&searchText={query1}',
+        f'https://www.alibaba.com/trade/search?tab=all&searchText={query2}'
+    ]
         self.e = Extractor.from_yaml_file('Alibaba.yml')    # Load config YAML file
 
     def parse(self, response):
@@ -30,14 +30,16 @@ class AlibabaSpider(scrapy.Spider):
 
         yield data
 
-
 # Run the spider
 if __name__ == "__main__":
+    query1 = input("Enter query 1: ").replace(" ", "+") # Format for URL
+    query2 = input("Enter query 2: ").replace(" ", "+")
+
     process = CrawlerProcess(settings={
         'FEEDS': {
             'items.json': {'format': 'json'}    # Scraped data will be stored here
         }
     })
 
-    process.crawl(AlibabaSpider)
+    process.crawl(AlibabaSpider, query1=query1, query2=query2)
     process.start()
