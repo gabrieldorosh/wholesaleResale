@@ -1,4 +1,5 @@
 import scrapy
+from scrapy.crawler import CrawlerProcess
 from selectorlib import Extractor
 
 
@@ -16,10 +17,8 @@ class AlibabaSpider(scrapy.Spider):
     def parse(self, response):
         data = self.e.extract(response.text)    # Use YAML config to yield
         
-        yield data
-
+        # Uncomment the following block to extract specific fields
         '''
-        # Possibility for a limited search option
         for product in data['Products']:
             yield {
                 'Name': product['Name'],
@@ -29,11 +28,11 @@ class AlibabaSpider(scrapy.Spider):
             }
         '''
 
+        yield data
+
 
 # Run the spider
 if __name__ == "__main__":
-    from scrapy.crawler import CrawlerProcess
-
     process = CrawlerProcess(settings={
         'FEEDS': {
             'items.json': {'format': 'json'}    # Scraped data will be stored here
