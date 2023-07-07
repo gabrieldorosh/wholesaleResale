@@ -1,0 +1,22 @@
+Products:
+    css: 'div.list-no-v2-outter:nth-of-type(n+2)'
+    xpath: null
+    multiple: true
+    type: Text
+    children:
+        Name:
+            css: p.elements-title-normal__content
+            xpath: null
+            type: Text
+        Price:
+            css: span.elements-offer-price-normal__price
+            xpath: null
+            type: Text
+        Shipping:
+            css: span.element-promotion-shipping-price__price
+            xpath: null
+            type: Text
+        MinQuantity:
+            css: span.element-offer-minorder-normal__value
+            xpath: null
+            type: Text
